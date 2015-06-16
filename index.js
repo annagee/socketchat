@@ -14,5 +14,19 @@ server.listen(process.env.PORT || 4000); // Listen on the default port, or on 40
   res.render('index')
  })
 
+ var io = require('socket.io').listen(server);
+
+io.sockets.on('connection', function(socket) {
+    socket.emit('connected');
+});
+
+// var socket = io.connect('http://localhost:4000/');
+// socket.on('connected', function() {
+//    alert("Connected!");
+// });
+
+io.sockets.on('chat', function(data) {
+  socket.broadcast.emit('chat', data);
+});
 
 
