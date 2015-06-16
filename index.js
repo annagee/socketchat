@@ -17,6 +17,9 @@ server.listen(process.env.PORT || 4000); // Listen on the default port, or on 40
  var io = require('socket.io').listen(server);
 
 io.sockets.on('connection', function(socket) {
+  socket.on('chat', function(data) {
+    writeLine(data.name, data.line);
+});
     socket.emit('connected');
 });
 
@@ -27,6 +30,10 @@ io.sockets.on('connection', function(socket) {
 
 io.sockets.on('chat', function(data) {
   socket.broadcast.emit('chat', data);
+});
+
+io.sockets.on('action', function(data) {
+  socket.broadcast.emit('action', data);
 });
 
 
